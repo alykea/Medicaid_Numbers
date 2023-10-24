@@ -1,0 +1,760 @@
+SELECT *
+FROM PortfolioProjectMedicaid..MedicaidCHIP;
+
+
+-- 1. NATIONWIDE TOTAL MEDICAID, CHIP, AND MEDICAID AND CHIP ENROLLMENT 2018-2023
+
+SELECT
+	report_date,
+	SUM(total_medicaid_and_chip_enrollment) AS medicaid_and_chip_enrollment,
+	SUM(total_medicaid_enrollment) AS medicaid_enrollment,
+	SUM(total_chip_enrollment) AS chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2023-05-01'
+GROUP BY report_date
+UNION ALL
+SELECT
+	report_date,
+	SUM(total_medicaid_and_chip_enrollment) AS medicaid_and_chip_enrollment,
+	SUM(total_medicaid_enrollment) AS medicaid_enrollment,
+	SUM(total_chip_enrollment) AS chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2022-05-01'
+GROUP BY report_date
+UNION ALL
+SELECT
+	report_date,
+	SUM(total_medicaid_and_chip_enrollment) AS medicaid_and_chip_enrollment,
+	SUM(total_medicaid_enrollment) AS medicaid_enrollment,
+	SUM(total_chip_enrollment) AS chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2021-05-01'
+GROUP BY report_date
+UNION ALL
+SELECT
+	report_date,
+	SUM(total_medicaid_and_chip_enrollment) AS medicaid_and_chip_enrollment,
+	SUM(total_medicaid_enrollment) AS medicaid_enrollment,
+	SUM(total_chip_enrollment) AS chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2020-05-01'
+GROUP BY report_date
+UNION ALL
+SELECT
+	report_date,
+	SUM(total_medicaid_and_chip_enrollment) AS medicaid_and_chip_enrollment,
+	SUM(total_medicaid_enrollment) AS medicaid_enrollment,
+	SUM(total_chip_enrollment) AS chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2019-05-01'
+GROUP BY report_date
+UNION ALL
+SELECT
+	report_date,
+	SUM(total_medicaid_and_chip_enrollment) AS medicaid_and_chip_enrollment,
+	SUM(total_medicaid_enrollment) AS medicaid_enrollment,
+	SUM(total_chip_enrollment) AS chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2018-05-01'
+GROUP BY report_date
+
+-- 2. NATIONWIDE ANNUAL PERCENT CHANGE OF MEDICAID & CHIP ENROLLMENT FROM 2022-2023
+
+SELECT
+	SUM(CASE WHEN report_date = '2023-05-01' THEN CAST(total_medicaid_and_chip_enrollment AS FLOAT) END)
+	AS medicaid_and_chip_enrollment_2023,
+	SUM(CASE WHEN report_date = '2022-05-01' THEN CAST(total_medicaid_and_chip_enrollment AS FLOAT) END)
+	AS medicaid_and_chip_enrollment_2022,
+	((SUM(CASE WHEN report_date = '2023-05-01' THEN CAST(total_medicaid_and_chip_enrollment AS FLOAT) END))
+	-
+	(SUM(CASE WHEN report_date = '2022-05-01' THEN CAST(total_medicaid_and_chip_enrollment AS FLOAT) END)))
+	/
+	SUM(CASE WHEN report_date = '2022-05-01' THEN CAST(total_medicaid_and_chip_enrollment AS FLOAT) END) * 100
+	AS percent_change
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+
+
+/*-- 3. DON'T USE! NATIONWIDE TOTAL MEDICAID ENROLLMENT 2018-2023
+
+SELECT
+	report_date,
+	SUM(total_medicaid_enrollment) AS total_medicaid_enrolled
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2023-05-01'
+GROUP BY report_date
+UNION ALL
+SELECT
+	report_date,
+	SUM(total_medicaid_enrollment) AS total_medicaid_enrolled
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2022-05-01'
+GROUP BY report_date
+UNION ALL
+SELECT
+	report_date,
+	SUM(total_medicaid_enrollment) AS total_medicaid_enrolled
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2021-05-01'
+GROUP BY report_date
+UNION ALL
+SELECT
+	report_date,
+	SUM(total_medicaid_enrollment) AS total_medicaid_enrolled
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2020-05-01'
+GROUP BY report_date
+UNION ALL
+SELECT
+	report_date,
+	SUM(total_medicaid_enrollment) AS total_medicaid_enrolled
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2019-05-01'
+GROUP BY report_date
+UNION ALL
+SELECT
+	report_date,
+	SUM(total_medicaid_enrollment) AS total_medicaid_enrolled
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2018-05-01'
+GROUP BY report_date
+*/
+
+-- 4. NATIONWIDE PERCENT CHANGE OF TOTAL MEDICAID ENROLLMENT 2022-2023
+
+SELECT
+	SUM(CASE WHEN report_date = '2023-05-01' THEN total_medicaid_enrollment END) AS nationwide_medicaid_enrollment_2023,
+	SUM(CASE WHEN report_date = '2022-05-01' THEN total_medicaid_enrollment END) AS nationwide_medicaid_enrollment_2022,
+	((SUM(CASE WHEN report_date = '2023-05-01' THEN CAST(total_medicaid_enrollment AS FLOAT) END))
+	-
+	(SUM(CASE WHEN report_date = '2022-05-01' THEN CAST(total_medicaid_enrollment AS FLOAT) END)))
+	/
+	SUM(CASE WHEN report_date = '2022-05-01' THEN CAST(total_medicaid_enrollment AS FLOAT) END) * 100
+	AS percent_change
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+
+/* -- 5. DON'T USE! NATIONWIDE AVG TOTAL CHIP ENROLLMENT 2018-2023
+
+SELECT
+	report_date,
+	SUM(total_chip_enrollment) AS nationwide_chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2023-05-01'
+GROUP BY report_date
+UNION ALL
+SELECT
+	report_date,
+	SUM(total_chip_enrollment) AS nationwide_chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2022-05-01'
+GROUP BY report_date
+UNION ALL
+SELECT
+	report_date,
+	SUM(total_chip_enrollment) AS nationwide_chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2021-05-01'
+GROUP BY report_date
+UNION ALL
+SELECT
+	report_date,
+	SUM(total_chip_enrollment) AS nationwide_chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2020-05-01'
+GROUP BY report_date
+UNION ALL
+SELECT
+	report_date,
+	SUM(total_chip_enrollment) AS nationwide_chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2019-05-01'
+GROUP BY report_date
+UNION ALL
+SELECT
+	report_date,
+	SUM(total_chip_enrollment) AS nationwide_chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2018-05-01'
+GROUP BY report_date;
+*/
+
+-- 6. NATIONWIDE PERCENT CHANGE OF TOTAL CHIP ENROLLMENT 2022-2023
+
+SELECT
+	SUM(CASE WHEN report_date = '2023-05-01' THEN total_chip_enrollment END) AS nationwide_chip_enrollment_2023,
+	SUM(CASE WHEN report_date = '2022-05-01' THEN total_chip_enrollment END) AS nationwide_chip_enrollment_2022,
+	((SUM(CASE WHEN report_date = '2023-05-01' THEN CAST(total_chip_enrollment AS FLOAT) END))
+	-
+	(SUM(CASE WHEN report_date = '2022-05-01' THEN CAST(total_chip_enrollment AS FLOAT) END)))
+	/
+	SUM(CASE WHEN report_date = '2022-05-01' THEN CAST(total_chip_enrollment AS FLOAT) END) * 100
+	AS percent_change
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+
+
+-- 7. NATIONWIDE NEW APPLICATIONS 2018-2022
+
+SELECT
+	YEAR(report_date) AS report_year,
+	SUM(new_applications_submitted_to_medicaid_and_chip_agencies) AS total_new_applications
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND YEAR(report_date) = 2022
+GROUP BY YEAR(report_date)
+UNION ALL
+SELECT
+	YEAR(report_date) AS report_year,
+	SUM(new_applications_submitted_to_medicaid_and_chip_agencies) AS total_new_applications
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND YEAR(report_date) = 2021
+GROUP BY YEAR(report_date)
+UNION ALL
+SELECT
+	YEAR(report_date) AS report_year,
+	SUM(new_applications_submitted_to_medicaid_and_chip_agencies) AS total_new_applications
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND YEAR(report_date) = 2020
+GROUP BY YEAR(report_date)
+UNION ALL
+SELECT
+	YEAR(report_date) AS report_year,
+	SUM(new_applications_submitted_to_medicaid_and_chip_agencies) AS total_new_applications
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND YEAR(report_date) = 2019
+GROUP BY YEAR(report_date)
+UNION ALL
+SELECT
+	YEAR(report_date) AS report_year,
+	SUM(new_applications_submitted_to_medicaid_and_chip_agencies) AS total_new_applications
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND YEAR(report_date) = 2018
+GROUP BY YEAR(report_date)
+
+-- 8. NATIONWIDE PERCENT CHANGE OF NEW APPLICATIONS 2022-2023
+
+SELECT
+	SUM(CASE WHEN YEAR(report_date) = 2022 THEN new_applications_submitted_to_medicaid_and_chip_agencies END)
+	AS nationwide_total_new_applications_2022,
+	SUM(CASE WHEN YEAR(report_date) = 2021 THEN new_applications_submitted_to_medicaid_and_chip_agencies END)
+	AS nationwide_total_new_applications_2021,
+	((SUM(CASE WHEN YEAR(report_date) = 2022 THEN CAST(new_applications_submitted_to_medicaid_and_chip_agencies AS FLOAT) END))
+	-
+	(SUM(CASE WHEN YEAR(report_date) = 2021 THEN CAST(new_applications_submitted_to_medicaid_and_chip_agencies AS FLOAT) END)))
+	/
+	SUM(CASE WHEN YEAR(report_date) = 2021 THEN CAST(new_applications_submitted_to_medicaid_and_chip_agencies AS FLOAT) END) * 100
+	AS percent_change
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+
+
+-- 9. NEW APPLICATIONS VS DATE BY STATE
+
+SELECT
+	state_name,
+	report_date,
+	new_applications_submitted_to_medicaid_and_chip_agencies
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+ORDER BY state_name, report_date DESC;
+
+-- 10. TOTAL NEW APPLICATIONS PER STATE IN 2022
+
+SELECT
+	state_name,
+	(CASE
+	WHEN state_name = 'Alabama' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Alaska' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Arizona' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Arkansas' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'California' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Colorado' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Connecticut' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Delaware' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'District of Columbia' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Florida' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Georgia' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Hawaii' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Idaho' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Illinois' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Indiana' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Iowa' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Kansas' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Kentucky' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Louisiana' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Maine' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Maryland' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Massachusetts' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Michigan' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Minnesota' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Mississippi' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Missouri' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Montana' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Nebraska' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Nevada' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'New Hampshire' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'New Jersey' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'New Mexico' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'New York' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'North Carolina' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'North Dakota' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Ohio' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Oklahoma' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Oregon' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Pennsylvania' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Rhode Island' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'South Carolina' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'South Dakota' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Tennessee' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Texas' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Utah' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Vermont' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Virginia' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Washington' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'West Virginia' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Wisconsin' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	WHEN state_name = 'Wyoming' THEN SUM(new_applications_submitted_to_medicaid_and_chip_agencies)
+	END) AS total_new_applications_2022
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND YEAR(report_date) = 2022
+GROUP BY state_name
+ORDER BY total_new_applications_2022 DESC;
+
+-- 11. PERCENT CHANGE OF TOTAL NEW APPLICATIONS PER STATE FROM 2021 TO 2022
+-- Kansas and New York have not reported new applications
+
+SELECT
+	state_name,
+	SUM(CASE WHEN YEAR(report_date) = 2022 THEN new_applications_submitted_to_medicaid_and_chip_agencies END)
+	AS total_new_2022,
+	SUM(CASE WHEN YEAR(report_date) = 2021 THEN new_applications_submitted_to_medicaid_and_chip_agencies END)
+	AS total_new_2021,
+	(((SUM(CASE WHEN YEAR(report_date) = 2022 THEN CAST(new_applications_submitted_to_medicaid_and_chip_agencies AS FLOAT)
+	END))
+	-
+	(SUM(CASE WHEN YEAR(report_date) = 2021 THEN CAST(new_applications_submitted_to_medicaid_and_chip_agencies AS FLOAT)
+	END)))
+	/
+	SUM(CASE WHEN YEAR(report_date) = 2021 THEN CAST(new_applications_submitted_to_medicaid_and_chip_agencies AS FLOAT)
+	END)) * 100
+	AS percent_change_per_state
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND new_applications_submitted_to_medicaid_and_chip_agencies != 0
+	AND state_name != 'Kansas'
+	AND state_name != 'New York'
+GROUP BY state_name
+ORDER BY percent_change_per_state DESC;
+
+-- to double check numbers above
+
+SELECT
+	state_name,
+	SUM(total_applications_for_financial_assistance_submitted_at_st_d6fa)
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND YEAR(report_date) = 2021
+	AND state_name = 'New York'
+GROUP BY state_name;
+
+/* -- 12. DON'T USE! TOTAL ENROLLMENT PER STATE 2022
+
+SELECT
+	state_name,
+	total_medicaid_and_chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND final_report = 'Y'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date = '2023-05-01'
+ORDER BY total_medicaid_and_chip_enrollment DESC;
+*/
+
+-- 13. ENROLLMENT PERCENTAGE OF STATE POPULATION 2022
+
+SELECT
+	M.state_name,
+	P.[2022] AS est_population_2022,
+	SUM(CASE WHEN M.report_date = '2023-05-01' THEN M.total_medicaid_and_chip_enrollment END)
+	AS total_enrollment,
+	(
+	(SUM(CASE WHEN M.report_date = '2023-05-01' THEN CAST(M.total_medicaid_and_chip_enrollment AS FLOAT) END))
+	/
+	P.[2022]
+	) * 100
+	AS percent_of_population_2022
+FROM PortfolioProjectMedicaid..MedicaidCHIP M
+JOIN PortfolioProjectMedicaid..Population_US P
+	ON M.state_name = P.state_name
+WHERE M.preliminary_updated = 'U'
+	AND M.new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND M.state_name = P.state_name
+GROUP BY M.state_name, P.[2022]
+ORDER BY percent_of_population_2022 DESC;
+
+-- 14. PERCENT CHANGE OF TOTAL ENROLLMENT PER STATE FROM 2022 TO 2023
+
+SELECT
+	state_name,
+	SUM(CASE WHEN report_date = '2023-05-01' THEN total_medicaid_and_chip_enrollment END)
+	AS total_avg_enrollment_2023,
+	SUM(CASE WHEN report_date = '2022-05-01' THEN total_medicaid_and_chip_enrollment END)
+	AS total_avg_enrollment_2022,
+	((SUM(CASE WHEN report_date = '2023-05-01' THEN CAST(total_medicaid_and_chip_enrollment AS FLOAT) END))
+	-
+	(SUM(CASE WHEN report_date = '2022-05-01' THEN CAST(total_medicaid_and_chip_enrollment AS FLOAT) END)))
+	/
+	SUM(CASE WHEN report_date = '2022-05-01' THEN CAST(total_medicaid_and_chip_enrollment AS FLOAT) END) * 100
+	AS percent_change_total_enrollment_per_state
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND state_name != 'Kansas'
+	AND state_name != 'New York'
+GROUP BY state_name
+ORDER BY percent_change_total_enrollment_per_state DESC;
+
+
+-- 15. CREATE A TABLE FOR REGIONS -- maybe NO NEW APPS PER REGION OR EXCLUDE NY AND KS
+
+create table region_state (region varchar(30), state varchar(30));
+insert into region_state values
+('North Region', 'Connecticut'),
+('North Region', 'Maine'),
+('North Region', 'Massachusetts'),
+('North Region', 'New Hampshire'),
+('North Region', 'New Jersey'),
+('North Region', 'New York'),
+('North Region', 'Pennsylvania'),
+('North Region', 'Rhode Island'),
+('North Region', 'Vermont'),
+('South Region', 'Alabama'),
+('South Region', 'Arkansas'),
+('South Region', 'Delaware'),
+('South Region', 'Florida'),
+('South Region', 'Georgia'),
+('South Region', 'Kentucky'),
+('South Region', 'Louisiana'),
+('South Region', 'Maryland'),
+('South Region', 'Mississippi'),
+('South Region', 'North Carolina'),
+('South Region', 'Oklahoma'),
+('South Region', 'South Carolina'),
+('South Region', 'Tennessee'),
+('South Region', 'Texas'),
+('South Region', 'Virginia'),
+('South Region', 'West Virginia'),
+('West Region', 'Alaska'),
+('West Region', 'Arizona'),
+('West Region', 'California'),
+('West Region', 'Colorado'),
+('West Region', 'Hawaii'),
+('West Region', 'Idaho'),
+('West Region', 'Montana'),
+('West Region', 'Nevada'),
+('West Region', 'New Mexico'),
+('West Region', 'Oregon'),
+('West Region', 'Utah'),
+('West Region', 'Washington'),
+('West Region', 'Wyoming'),
+('Midwest Region', 'Illinois'),
+('Midwest Region', 'Indiana'),
+('Midwest Region', 'Iowa'),
+('Midwest Region', 'Kansas'),
+('Midwest Region', 'Michigan'),
+('Midwest Region', 'Minnesota'),
+('Midwest Region', 'Missouri'),
+('Midwest Region', 'Nebraska'),
+('Midwest Region', 'North Dakota'),
+('Midwest Region', 'Ohio'),
+('Midwest Region', 'South Dakota'),
+('Midwest Region', 'Wisconsin'),
+('Midwest Region', 'District of Columbia');
+
+
+-- NEW APPLICATIONS PER REGION
+-- New York and Kansas have not reported new application numbers
+
+SELECT
+	SUM(CASE WHEN YEAR(M.report_date) = 2022 THEN M.new_applications_submitted_to_medicaid_and_chip_agencies END)
+	AS total_new_2023,
+	SUM(CASE WHEN YEAR(M.report_date) = 2021 THEN M.new_applications_submitted_to_medicaid_and_chip_agencies END)
+	AS total_new_2022,
+    R.region
+FROM PortfolioProjectMedicaid..MedicaidCHIP M
+JOIN region_state R
+	ON M.state_name = R.state
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+GROUP BY R.region;
+
+
+-- 16. PERCENT CHANGE OF NEW APPLICATIONS PER REGION 2022-2023
+-- New York and Kansas have not reported new application numbers
+
+SELECT
+	R.region,
+	SUM(CASE WHEN YEAR(M.report_date) = 2022 THEN M.new_applications_submitted_to_medicaid_and_chip_agencies END)
+	AS total_new_2022,
+	SUM(CASE WHEN YEAR(M.report_date) = 2021 THEN M.new_applications_submitted_to_medicaid_and_chip_agencies END)
+	AS total_new_2021,
+	((SUM(CASE WHEN YEAR(report_date) = 2022 THEN CAST(M.new_applications_submitted_to_medicaid_and_chip_agencies AS FLOAT) END))
+	-
+	(SUM(CASE WHEN YEAR(report_date) = 2021 THEN CAST(M.new_applications_submitted_to_medicaid_and_chip_agencies AS FLOAT) END)))
+	/
+	SUM(CASE WHEN YEAR(report_date) = 2021 THEN CAST(M.new_applications_submitted_to_medicaid_and_chip_agencies AS FLOAT) END) * 100
+	AS percent_change_per_region
+FROM PortfolioProjectMedicaid..MedicaidCHIP M
+JOIN region_state R
+	ON M.state_name = R.state
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+GROUP BY R.region
+ORDER BY percent_change_per_region DESC;
+
+
+-- 17. TOTAL ENROLLMENT PER REGION
+
+SELECT
+	R.region,
+	SUM(CASE WHEN M.report_date = '2023-05-01' THEN M.total_medicaid_and_chip_enrollment END)
+	AS total_2023,
+	SUM(CASE WHEN M.report_date = '2022-05-01' THEN M.total_medicaid_and_chip_enrollment END)
+	AS total_2022,
+	SUM(CASE WHEN M.report_date = '2021-05-01' THEN M.total_medicaid_and_chip_enrollment END)
+	AS total_2021
+FROM PortfolioProjectMedicaid..MedicaidCHIP M
+JOIN region_state R
+	ON M.state_name = R.state
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+GROUP BY R.region;
+
+
+-- 18. PERCENT CHANGE OF TOTAL ENROLLMENT PER REGION 2022-2023
+
+SELECT
+	R.region,
+	SUM(CASE WHEN M.report_date = '2023-05-01' THEN M.total_medicaid_and_chip_enrollment END)
+	AS total_2023,
+	SUM(CASE WHEN M.report_date = '2022-05-01' THEN M.total_medicaid_and_chip_enrollment END)
+	AS total_2022,
+	((SUM(CASE WHEN report_date = '2023-05-01' THEN CAST(M.total_medicaid_and_chip_enrollment AS FLOAT) END))
+	-
+	(SUM(CASE WHEN report_date = '2022-05-01' THEN CAST(M.total_medicaid_and_chip_enrollment AS FLOAT) END)))
+	/
+	SUM(CASE WHEN report_date = '2022-05-01' THEN CAST(M.total_medicaid_and_chip_enrollment AS FLOAT) END) * 100
+	AS percent_change_per_region
+FROM PortfolioProjectMedicaid..MedicaidCHIP M
+JOIN region_state R
+	ON M.state_name = R.state
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+GROUP BY R.region
+ORDER BY percent_change_per_region DESC;
+
+-- 19. TOTAL MEDICAID & CHIP ENROLLMENT PER STATE OVER TIME
+
+SELECT
+	state_name,
+	report_date,
+	total_medicaid_and_chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date LIKE '%05-01'
+GROUP BY state_name, report_date, total_medicaid_and_chip_enrollment
+ORDER BY state_name, report_date DESC;
+
+-- 20. TOTAL MEDICAID ONLY ENROLLMENT PER STATE OVER TIME
+
+SELECT
+	state_name,
+	report_date,
+	total_medicaid_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date LIKE '%05-01'
+GROUP BY state_name, report_date, total_medicaid_enrollment
+ORDER BY state_name, report_date DESC;
+
+-- 21. TOTAL CHIP ONLY ENROLLMENT PER STATE OVER TIME
+
+SELECT
+	state_name,
+	report_date,
+	total_chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date LIKE '%05-01'
+GROUP BY state_name, report_date, total_chip_enrollment
+ORDER BY state_name, report_date DESC;
+
+/* --22. DON'T USE! HIGHEST ENROLLMENT OF ALL TIME -- redo max divided by population - percent of population
+
+SELECT
+	state_name,
+	(CASE WHEN state_name = 'Alabama' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Alaska' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Arizona' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Arkansas' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'California' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Colorado' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Connecticut' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Delaware' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'District of Columbia' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Florida' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Georgia' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Hawaii' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Idaho' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Illinois' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Indiana' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Iowa' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Kansas' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Kentucky' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Louisiana' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Maine' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Maryland' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Massachusetts' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Michigan' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Minnesota' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Mississippi' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Missouri' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Montana' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Nebraska' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Nevada' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'New Hampshire' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'New Jersey' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'New Mexico' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'New York' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'North Carolina' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'North Dakota' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Ohio' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Oklahoma' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Oregon' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Pennsylvania' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Rhode Island' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'South Carolina' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'South Dakota' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Tennessee' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Texas' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Utah' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Vermont' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Virginia' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Washington' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'West Virginia' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Wisconsin' THEN MAX(total_medicaid_and_chip_enrollment)
+	WHEN state_name = 'Wyoming' THEN MAX(total_medicaid_and_chip_enrollment)
+	END) AS highest_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+GROUP BY state_name
+ORDER BY highest_enrollment DESC;
+
+-- double check for highest enrollement by selecting specific state
+
+SELECT
+	state_name,
+	total_medicaid_and_chip_enrollment,
+	report_date
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND state_name = 'New York'
+ORDER BY total_medicaid_and_chip_enrollment DESC
+*/
+
+-- 23. TOTAL MEDICAID AND CHIP ENROLLMENT BY STATE 2023
+
+SELECT
+	state_name,
+	report_date,
+	total_medicaid_and_chip_enrollment
+FROM PortfolioProjectMedicaid..MedicaidCHIP
+WHERE preliminary_updated = 'U'
+	AND new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND report_date LIKE '2023-05-01'
+GROUP BY state_name, report_date, total_medicaid_and_chip_enrollment
+ORDER BY state_name, report_date DESC;
+
+-- 24. PERCENTAGE OF POPULATION OF NEW APPLICATIONS 2022
+
+SELECT
+	M.state_name,
+	P.[2022] AS est_population_2022,
+	SUM(CASE WHEN YEAR(M.report_date) = 2022 THEN M.new_applications_submitted_to_medicaid_and_chip_agencies END)
+	AS new_applications,
+	(
+	(SUM(CASE WHEN YEAR(M.report_date) = 2022 THEN CAST(M.new_applications_submitted_to_medicaid_and_chip_agencies AS FLOAT) END))
+	/
+	P.[2022]
+	) * 100
+	AS percent_of_population_new_applications_2022
+FROM PortfolioProjectMedicaid..MedicaidCHIP M
+JOIN PortfolioProjectMedicaid..Population_US P
+	ON M.state_name = P.state_name
+WHERE M.preliminary_updated = 'U'
+	AND M.new_applications_submitted_to_medicaid_and_chip_agencies IS NOT NULL
+	AND M.state_name = P.state_name
+GROUP BY M.state_name, P.[2022]
+ORDER BY percent_of_population_new_applications_2022 DESC;
+
+
